@@ -27,6 +27,9 @@ pushd $SOURCE_DIR/webrtc/src
   popd
 
   git fetch
-  git checkout -f $WEBRTC_COMMIT
+  # git checkout -f $WEBRTC_COMMIT
+  git remote add pixiv https://github.com/pixiv/webrtc.git
+  git fetch pixiv
+  git checkout branch-heads/pixiv-m78
   gclient sync
 popd
