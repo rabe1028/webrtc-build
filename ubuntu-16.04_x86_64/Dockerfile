@@ -31,6 +31,9 @@ RUN cd $SOURCE_DIR/webrtc/src \
     target_os="linux" \
     is_debug=false \
     rtc_include_tests=false \
+    rtc_build_examples=false \
+    rtc_build_tools=false \
+    rtc_enable_protobuf=false \
     rtc_use_h264=false \
     is_component_build=false \
     use_rtti=true \
@@ -38,6 +41,15 @@ RUN cd $SOURCE_DIR/webrtc/src \
   && ninja -C $BUILD_DIR/webrtc
 
 RUN cd $BUILD_DIR/webrtc/obj \
+  && rm -f `find . -name '*.o' | grep main.o` \
+  && rm -f `find . -name '*.o' | grep nasm.o` \
+  && rm -f `find . -name '*.o' | grep /third_party/yasm/gen` \
+  && rm -f `find . -name '*.o' | grep /third_party/yasm/re2c` \
+  && rm -f `find . -name '*.o' | grep /third_party/yasm/yasm` \
+  && rm -f `find . -name '*.o' | grep /third_party/protobuf/protoc` \
+  && rm -f `find . -name '*.o' | grep /third_party/protobuf/protobuf_lite` \
+  && rm -f `find . -name '*.o' | grep /webrtc/examples/` \
+  && rm -f `find . -name '*.o' | grep /webrtc/tools/`   \
   && $SOURCE_DIR/webrtc/src/third_party/llvm-build/Release+Asserts/bin/llvm-ar -rc $BUILD_DIR/webrtc/libwebrtc.a `find . -name '*.o'`
 
 RUN cd $SOURCE_DIR/webrtc/src \
@@ -45,6 +57,9 @@ RUN cd $SOURCE_DIR/webrtc/src \
     target_os="linux" \
     is_debug=false \
     rtc_include_tests=false \
+    rtc_build_examples=false \
+    rtc_build_tools=false \
+    rtc_enable_protobuf=false \
     rtc_use_h264=false \
     is_component_build=false \
     use_rtti=true \
@@ -54,6 +69,15 @@ RUN cd $SOURCE_DIR/webrtc/src \
   && ninja -C $BUILD_DIR/webrtc_nolibcxx
 
 RUN cd $BUILD_DIR/webrtc_nolibcxx/obj \
+  && rm -f `find . -name '*.o' | grep main.o` \
+  && rm -f `find . -name '*.o' | grep nasm.o` \
+  && rm -f `find . -name '*.o' | grep /third_party/yasm/gen` \
+  && rm -f `find . -name '*.o' | grep /third_party/yasm/re2c` \
+  && rm -f `find . -name '*.o' | grep /third_party/yasm/yasm` \
+  && rm -f `find . -name '*.o' | grep /third_party/protobuf/protoc` \
+  && rm -f `find . -name '*.o' | grep /third_party/protobuf/protobuf_lite` \
+  && rm -f `find . -name '*.o' | grep /webrtc/examples/` \
+  && rm -f `find . -name '*.o' | grep /webrtc/tools/`   \
   && $SOURCE_DIR/webrtc/src/third_party/llvm-build/Release+Asserts/bin/llvm-ar -rc $BUILD_DIR/webrtc_nolibcxx/libwebrtc.a `find . -name '*.o'`
 
 ENV STATIC_DIR "/root/static"
